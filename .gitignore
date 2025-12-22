@@ -1,0 +1,23 @@
+# Ignore All files by default and add necessary ones only
+*
+
+!src/
+!src/**
+
+!gradle/
+!gradle/**
+!build.gradle.kts
+!gradle.properties
+!gradlew
+!gradlew.bat
+!settings.gradle.kts
+
+!README.md
+!PROJECT_STRUCTURE.md
+!.gitignore
+!.gitattributes
+
+!Dockerfile
+!docker-compose.yml
+
+!.env.example

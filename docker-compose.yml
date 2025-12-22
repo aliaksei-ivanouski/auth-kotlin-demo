@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    container_name: 'auth-kotlin-demo'
+    ports:
+      - '18080:8080'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mailhog:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - auth-kotlin-demo
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: auth-demo-postgres
+    environment:
+      POSTGRES_DB: auth_demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - auth-kotlin-demo
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: auth-demo-mailhog
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8025"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - auth-kotlin-demo
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  auth-kotlin-demo:
