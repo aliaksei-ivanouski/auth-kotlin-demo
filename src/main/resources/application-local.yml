@@ -1,3 +1,6 @@
+server:
+  port: 8082
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:15432/auth_demo

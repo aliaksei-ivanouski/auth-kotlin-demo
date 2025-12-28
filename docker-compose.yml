@@ -6,7 +6,7 @@ services:
       context: .
     container_name: 'auth-kotlin-demo'
     ports:
-      - '18080:8080'
+      - '18082:8080'
     depends_on:
       postgres:
         condition: service_healthy
